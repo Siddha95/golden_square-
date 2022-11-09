@@ -8,4 +8,13 @@ RSpec.describe Gratitudes do
     result = gratitude.format()
     expect(result).to eq "Be grateful for: Be alive"
   end
-end # We would typically have a number of these examples.
+
+  context "when there is an empty string as input" do
+  it 'return nothing after the string' do
+    gratitude = Gratitudes.new
+    gratitude.add("")
+    result = gratitude.format()
+    expect(result).to eq "Be grateful for: "
+  end # We would typically have a number of these examples.
+end
+end
