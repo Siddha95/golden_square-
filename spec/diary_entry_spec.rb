@@ -1,53 +1,75 @@
-#require "diary_entry"
+require 'diary_entry'
 
-#def initialize
-   # ...
- #end
+RSpec.describe DiaryEntry do
+    it "Constructs a diary entry" do
+        diary_entry = DiaryEntry.new("title", "contents")
+        result = diary_entry.title()
+        expect(result).to eq "title"
+    end
 
- #def check(text) # text is a string
-   # Returns true or false depending on whether the text begins with a capital
-   # letter and ends with a sentence-ending punctuation mark.
- #end
+    it "Returns the contents of the entry" do
+        diary_entry = DiaryEntry.new("title", "contents")
+        result = diary_entry.contents()
+        expect(result).to eq "contents"
+    end
 
- #def percentage_good
-   # Returns as an integer the percentage of texts checked so far that passed
-   # the check defined in the `check` method. The number 55 represents 55%.
- #end
-#end
+    it "Returns the word count of the contents" do
+        diary_entry = DiaryEntry.new("title", "contents")
+        result = diary_entry.count_words()
+        expect(result).to eq 1
+    end
 
-#RSpec.describe DiaryEntry do
-  #it "constructs" do
-  #  diary_entry = DiaryEntry.new("my_title", "my_contents")
-  #  expect(diary_entry.title).to eq "my_title"
-  #  expect(diary_entry.contents).to eq "my_contents"
-  #end
-
-  #describe "@count_words" do
-  #  it "returns the number of words in the contents" do
-  #    diary_entry = DiaryEntry.new("my_title", "some contents here")
-  #    expect(diary_entry.count_words).to eq 3
-  #  end
+    it "Returns the minutes it will take to read the contents" do
+        diary_entry = DiaryEntry.new("title", "one two three four five six seven eight nine ten")
+        result = diary_entry.reading_time(5)
+        expect(result).to eq 2
+    end
 
 
-  #  it "returns zero when the contents is empty" do
-  #    diary_entry = DiaryEntry.new("my_title", "")
-  #    expect(diary_entry.count_words).to eq 0
-  #  end
-  #end
+    describe "#reading_chunk" do
 
-  #describe "@reading_time" do
-  #  context "give a wpc of some sensible number (200)" do
-  #    it "returns the ceiling of the number of minutes it takes to read read the contents"
-  #      diary_entry = DiaryEntry.new("my_title", "one ") * 550)
-  #      expect(diary_entry.reading_time(200)).to eq 3
-  #    end
+        it "Returns the first five words, given 2wpm and 2min" do
+            diary_entry = DiaryEntry.new("title", "one two three four five six seven eight nine ten 11 12 13 14 15")
+            result = diary_entry.reading_chunk(2, 2)
+            expect(result).to eq "one two three four"
+        end
+
+        it "Returns the middle five words, given 2wpm and 2min, twice" do
+            diary_entry = DiaryEntry.new("title", "one two three four five six seven eight nine ten 11 12 13 14 15")
+            diary_entry.reading_chunk(2, 2)
+            result = diary_entry.reading_chunk(2, 2)
+            expect(result).to eq "five six seven eight"
+        end
+
+        it "Returns the final five words, given 2wpm and 2min, three times" do
+            diary_entry = DiaryEntry.new("title", "one two three four five six seven eight nine ten 11 12 13 14 15")
+            diary_entry.reading_chunk(2, 2)
+            diary_entry.reading_chunk(2, 2)
+            result = diary_entry.reading_chunk(2, 2)
+            expect(result).to eq "nine ten 11 12"
+        end
+
+        it "Returns the whole block given there is more time than words to read " do
+            diary_entry = DiaryEntry.new("title", "one two three four five")
+            result = diary_entry.reading_chunk(10, 1)
+            expect(result).to eq "one two three four five"
+        end
+
+        it "retarts after reading the whole contents" do
+            diary_entry = DiaryEntry.new("title", "one two three four")
+            diary_entry.reading_chunk(4,1)
+            result = diary_entry.reading_chunk(2,1)
+            expect(result).to eq "one two"
+        end
+
+        it "retarts after reading the whole contents" do
+            diary_entry = DiaryEntry.new("title", "one two three four")
+            diary_entry.reading_chunk(2,1)
+            diary_entry.reading_chunk(2,1)
+            result = diary_entry.reading_chunk(2,1)
+            expect(result).to eq "one two"
+        end
 
 
-  #   context "given a wpm of 0" do
-  #     it "fails" do
-  #       diary_entry = DiaryEntry.new("my_title", "one two three")
-  #       expect { diary_entry.reading_time(0) }.to raise_error "Reading speed must be above zero."
-  #     end
-  #   end
-  #  end
-#  end
+    end
+end
