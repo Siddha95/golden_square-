@@ -19,6 +19,41 @@ RSpec.describe DiaryEntry do
         expect(result).to eq 1
     end
 
+    it "Returns 0 if content is empty" do
+        diary_entry = DiaryEntry.new("title", "")
+        result = diary_entry.count_words()
+        expect(result).to eq 0
+    end
+
+    it "Returns 1 if content is one word" do
+        diary_entry = DiaryEntry.new("title", "one")
+        result = diary_entry.count_words()
+        expect(result).to eq 1
+    end
+
+    it "Returns the word count of the contents" do
+        diary_entry = DiaryEntry.new("title", "contents")
+        result = diary_entry.count_words()
+        expect(result).to eq 1
+    end
+
+  describe "@reading_time"
+    it "fails if the wpm is zero" do
+      diary_entry = DiaryEntry.new("my_title", "hello world")
+      expect { diary_entry.reading_time(0) }.to raise_error "WPM must be positive."
+    end
+    it "Returns 0 if content is empty" do
+        diary_entry = DiaryEntry.new("title", "")
+        result = diary_entry.reading_time(2)
+        expect(result).to eq 0
+    end
+
+     it "Returns 1 if content is one word" do
+        diary_entry = DiaryEntry.new("title", "one")
+        result = diary_entry.reading_time(2)
+        expect(result).to eq 1
+    end
+
     it "Returns the minutes it will take to read the contents" do
         diary_entry = DiaryEntry.new("title", "one two three four five six seven eight nine ten")
         result = diary_entry.reading_time(5)
