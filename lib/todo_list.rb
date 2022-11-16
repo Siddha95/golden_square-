@@ -1,25 +1,36 @@
 
 class TodoList
   def initialize
-    @todo_entries = []
+    @todos = []
   end
 
   def add(todo)
-    @todo_entries << todo
+
+      @todos << todo
     # todo is an instance of Todo
     # Returns nothing
   end
 
   def incomplete
-    return @todo_entries
+    #@incomplete = @todos.select do |todo|
+      #todo.include?("DONE")
+    #end
+    return @todos
     # Returns all non-done todos
   end
 
   def complete
+    complete = @todos.select do |todo|
+      todo.task.include?("DONE")
+    end
+    return complete
     # Returns all complete todos
   end
 
   def give_up!
+    @todos.each do |todo|
+      todo.mark_done!
+    end
     # Marks all todos as complete
   end
 end

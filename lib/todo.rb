@@ -10,11 +10,13 @@ class Todo
   end
 
   def mark_done!
+    @task = "#{@task} DONE"
     # Marks the todo as done
     # Returns nothing
   end
 
   def done?
+    return @task.include?("DONE")
     # Returns true if the task is done
     # Otherwise, false
   end

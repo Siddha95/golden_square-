@@ -1,14 +1,32 @@
 require "todo"
 
+
+RSpec.describe Todo do
+  context "with a task marked by DONE" do
+  it "returns true" do
+      todo_entry = Todo.new("todo")
+      todo_entry.mark_done!
+      result = todo_entry.done?
+      expect(result).to eq true
+    end
+  end
+  context "with a task passed"
+  it "returns the task" do
+      todo_entry = Todo.new("todo")
+      result = todo_entry.task
+      expect(result).to eq "todo"
+  end
+end
+=begin
 RSpec.describe Todo do
   it "Constructs" do
       todo_entry = Todo.new("todo")
       result = todo_entry.task()
-      expect(result).to eq "todo"
+      expect(result).to eq "TODO : todo"
   end
-end 
+end
 
-=begin
+
 RSpec.describe DiaryEntry do
     it "Constructs a diary entry" do
         diary_entry = DiaryEntry.new("title", "contents")

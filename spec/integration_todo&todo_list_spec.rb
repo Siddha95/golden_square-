@@ -3,17 +3,63 @@ require 'todo_list'
 
 RSpec.describe 'integration' do
   context "when we add entries to the list" do
-    it "adds the entries to the list" do
-      todo = TodoList.new
-      todo_entry = Todo.new("my_todo")
-      todo_entry2 = Todo.new("my_todo2")
-      todo.add(todo_entry)
-      todo.add(todo_entry2)
-      expect(todo.incomplete).to eq [todo_entry, todo_entry2]
+    it "returns it on the todo list" do
+      todo_list = TodoList.new
+      todo = Todo.new("my_task")
+      todo_list.add(todo)
+      expect(todo_list.incomplete).to eq [todo]
     end
+  end
+  context "when we add completed entry to the list" do
+    it "returns the completed list" do
+      todo_list = TodoList.new
+      todo = Todo.new("my_task")
+      todo.mark_done!
+      todo_list.add(todo)
+      expect(todo_list.complete).to eq [todo]
+    end
+  end
+  context "give_up! marks all tasks as complete" do
+    it "returns the completed list" do
+      todo_list = TodoList.new
+      todo1 = Todo.new("my_task1")
+      todo2 = Todo.new("my_task2")
+      todo_list.add(todo1)
+      todo_list.add(todo2)
+      todo_list.give_up!
+      expect(todo_list.complete).to eq [todo1, todo2]
+    end
+  end
+  end
+
+
+
 
 =begin
-      describe "@count_words" do
+
+context "when we mark the todo as done" do
+  it "returns it on the complete list" do
+    todo_list = TodoList.new
+    todo = Todo.new("my_task").mark_done!
+    todo_list.add(todo)
+    expect(todo_list.complete).to eq [todo]
+  end
+end
+
+
+    describe "mark_done!" do
+    context "With some todos in the incomplete list"
+    it "Marks tasks as done and add them to complete list" do
+      todo_list = TodoList.new
+      todo = Todo.new("my_task")
+      todo.mark_done!
+      todo_list.add(todo)
+      expect(todo_list.complete).to eq ("DONE : my_task")
+    end
+  end
+end
+
+    describe "@count_words" do
     it "returns the number of words in all entries contents" do
       diary = Diary.new
       diary_entry1 = DiaryEntry.new("my_title1", "my_content 1")
@@ -91,7 +137,3 @@ describe "best reading time entry behavior" do
 end
 
 =end
-
-
- end
-end
