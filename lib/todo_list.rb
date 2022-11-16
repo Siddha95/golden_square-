@@ -12,10 +12,10 @@ class TodoList
   end
 
   def incomplete
-    #@incomplete = @todos.select do |todo|
-      #todo.include?("DONE")
-    #end
-    return @todos
+    incomplete = @todos.reject do |todo|
+      todo.task.include?("DONE")
+    end
+    return incomplete
     # Returns all non-done todos
   end
 

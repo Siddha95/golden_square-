@@ -30,6 +30,17 @@ RSpec.describe 'integration' do
       expect(todo_list.complete).to eq [todo1, todo2]
     end
   end
+  context "when we add incompleted entry to the list" do
+    it "returns the incompleted list" do
+      todo_list = TodoList.new
+      todo = Todo.new("my_task")
+      todo2 = Todo.new("my_task2")
+      todo2.mark_done!
+      todo_list.add(todo)
+      todo_list.add(todo2)
+      expect(todo_list.incomplete).to eq [todo]
+    end
+  end
   end
 
 
